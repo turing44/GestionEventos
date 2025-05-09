@@ -5,4 +5,6 @@ module org.example.gestioncultural {
 
     opens org.example.gestioncultural to javafx.fxml;
     exports org.example.gestioncultural;
+    exports org.example.gestioncultural.controladores;
+    opens org.example.gestioncultural.controladores to javafx.fxml;
 }

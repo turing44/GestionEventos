@@ -2,66 +2,22 @@ package org.example.gestioncultural.modelo.beans;
 
 import java.util.Date;
 
-public class Taller {
-    private String titulo;
-    private Date fecha;
-    private String nombreMonitor;
-    private Integer precio;
+public class Taller extends Evento {
     private Integer numeroMaximoAsistentes;
-    private boolean enCurso;
-    private Integer idTaller;
+    private Double precio;
 
-    public Taller(String titulo, Date fecha, String nombreMonitor, Integer precio, Integer numeroMaximoAsistentes, Integer idTaller) {
-        this.titulo = titulo;
-        this.fecha = fecha;
-        this.nombreMonitor = nombreMonitor;
+    public Taller(String titulo, String ponente, Date fecha, Double precio, Integer numeroMaximoAsistentes) {
+        super(titulo, ponente, fecha);
+        this.numeroMaximoAsistentes = numeroMaximoAsistentes;
         this.precio = precio;
-        this.numeroMaximoAsistentes = numeroMaximoAsistentes;
-        this.idTaller = idTaller;
-        enCurso = false;
-
     }
 
-    public Taller(String titulo, Date fecha, String nombreMonitor, Integer numeroMaximoAsistentes, Integer idTaller) {
-        this.titulo = titulo;
-        this.fecha = fecha;
-        this.nombreMonitor = nombreMonitor;
-        this.precio = 0;
-        this.numeroMaximoAsistentes = numeroMaximoAsistentes;
-        this.idTaller = idTaller;
-        enCurso = false;
 
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getNombreMonitor() {
-        return nombreMonitor;
-    }
-
-    public void setNombreMonitor(String nombreMonitor) {
-        this.nombreMonitor = nombreMonitor;
-    }
-
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
@@ -72,14 +28,4 @@ public class Taller {
     public void setNumeroMaximoAsistentes(Integer numeroMaximoAsistentes) {
         this.numeroMaximoAsistentes = numeroMaximoAsistentes;
     }
-
-    public boolean isEnCurso() {
-        return enCurso;
-    }
-
-    public void setEnCurso(boolean enCurso) {
-        this.enCurso = enCurso;
-    }
-
-
 }
