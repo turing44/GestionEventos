@@ -1,11 +1,12 @@
 package org.example.gestioncultural.modelo.beans;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Conferencia extends Evento {
     private String hora;
 
-    public Conferencia(String titulo, String ponente, Date fecha, Double precio, String hora) {
+    public Conferencia(String titulo, String ponente, LocalDate fecha, String hora) {
         super(titulo, ponente, fecha);
         this.hora = hora;
     }

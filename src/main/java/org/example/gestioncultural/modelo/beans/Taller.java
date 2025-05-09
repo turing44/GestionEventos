@@ -1,12 +1,13 @@
 package org.example.gestioncultural.modelo.beans;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Taller extends Evento {
     private Integer numeroMaximoAsistentes;
     private Double precio;
 
-    public Taller(String titulo, String ponente, Date fecha, Double precio, Integer numeroMaximoAsistentes) {
+    public Taller(String titulo, String ponente, LocalDate fecha, Double precio, Integer numeroMaximoAsistentes) {
         super(titulo, ponente, fecha);
         this.numeroMaximoAsistentes = numeroMaximoAsistentes;
         this.precio = precio;

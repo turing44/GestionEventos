@@ -1,13 +1,14 @@
 package org.example.gestioncultural.modelo.beans;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Exposicion extends Evento {
 
     private Double precio;
-    private Date fecha_fin;
+    private LocalDate fecha_fin;
 
-    public Exposicion(String titulo, String ponente, Date fecha) {
+    public Exposicion(String titulo, String ponente, LocalDate fecha, Double precio, LocalDate fecha_fin) {
         super(titulo, ponente, fecha);
         this.precio = precio;
         this.fecha_fin = fecha_fin;
@@ -21,10 +22,10 @@ public class Exposicion extends Evento {
         this.precio = precio;
     }
 
-    public Date getFecha_fin() {
+    public LocalDate getFecha_fin() {
         return fecha_fin;
     }
-    public void setFecha_fin(Date fecha_fin) {
+    public void setFecha_fin(LocalDate fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
 }

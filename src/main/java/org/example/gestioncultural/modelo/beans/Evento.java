@@ -1,29 +1,29 @@
 package org.example.gestioncultural.modelo.beans;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Evento {
     private String titulo;
     private String ponente;
-    private Date fecha;
+    private LocalDate fecha;
 
     private boolean enCurso;
     private Integer idEvento;
 
-    public Evento(String titulo, String ponente, Date fecha) {
+    public Evento(String titulo, String ponente, LocalDate fecha) {
         this.titulo = titulo;
         this.ponente = ponente;
         this.fecha = fecha;
 
         enCurso = false;
-        this.idEvento = asignarNuevoId();
     }
 
 
 
-    private Integer asignarNuevoId() {
+    private void asignarId(Integer idEvento) {
         // obtener ultimo id creado
-        return  + 1;
+        this.idEvento = idEvento;
+
     }
 
     public String getTitulo() {
@@ -34,11 +34,19 @@ public class Evento {
         this.titulo = titulo;
     }
 
-    public Date getFecha() {
+    public String getPonente() {
+        return ponente;
+    }
+
+    public void setPonente(String ponente) {
+        this.ponente = ponente;
+    }
+
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

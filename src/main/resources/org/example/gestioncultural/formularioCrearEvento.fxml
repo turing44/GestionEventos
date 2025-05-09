@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -44,10 +43,7 @@
             <TextField fx:id="campoAsistentes" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="btnCrearEvento" mnemonicParsing="false" text="Crear" />
-         </children>
-      </HBox>
+      <Button fx:id="btnCrearEvento" mnemonicParsing="false" onAction="#crearEvento" text="Crear" />
+      <Label fx:id="mensaje" />
    </children>
 </VBox>
