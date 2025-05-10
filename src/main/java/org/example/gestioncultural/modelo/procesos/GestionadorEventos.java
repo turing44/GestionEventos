@@ -1,9 +1,7 @@
 package org.example.gestioncultural.modelo.procesos;
 
 import org.example.gestioncultural.modelo.beans.Evento;
-
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class GestionadorEventos {
     protected ArrayList<Evento> eventos;
@@ -11,10 +9,7 @@ public class GestionadorEventos {
 
     public GestionadorEventos() {
         this.eventos = repositorio.leer();
-        if (eventos == null) {
-            eventos = new ArrayList<>();
-        }
+        if (eventos == null) eventos = new ArrayList<>();
     }
-
 
 }

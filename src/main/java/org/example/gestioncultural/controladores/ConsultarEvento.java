@@ -15,8 +15,8 @@ import java.util.List;
 
 public class ConsultarEvento {
 
-    @FXML
-    private VBox contenedorEventos;
+    @FXML private VBox contenedorEventos;
+    @FXML private Label mensaje;
 
     private ArrayList<Evento> eventos;
     private ConsultadorEventos consultadorEventos = new ConsultadorEventos();
@@ -29,23 +29,40 @@ public class ConsultarEvento {
 
     @FXML
     public void mostrarProximoEvento() {
+        try {
+           // crearVistaEvento(consultadorEventos.obtenerProximoEvento());
+        } catch (IllegalArgumentException e) {
+            mensaje.setText(e.getMessage());
+        }
 
     }
     @FXML
-    public void mostrarEventoEnCurso() {}
+    public void mostrarEventoEnCurso() {
+        try {
+            crearVistaEvento(consultadorEventos.obtenerEventoEnCurso());
+        } catch (IllegalArgumentException e) {
+            mensaje.setText(e.getMessage());
+        }
+    }
 
     @FXML
-    public void mostrarEventosConcluidos() {}
+    public void mostrarEventosConcluidos() {
+        for (Evento e : consultadorEventos.obtenerEventosConcluidos()) {
+            contenedorEventos.getChildren().add(crearVistaEvento(e));
+        }
+    }
 
 
     private void mostrarTodosEventos() {
-
         for (Evento e : eventos) {
             contenedorEventos.getChildren().add(crearVistaEvento(e));
         }
     }
 
-    private HBox crearVistaEvento(Evento e) {
+    private HBox crearVistaEvento(Evento e) throws IllegalArgumentException{
+        if (e == null) throw new IllegalArgumentException("No hay ningun evento que mostrar");
+
+
         HBox contenedorEvento = new HBox(10);
         contenedorEvento.setStyle("-fx-border-color: #ccc; -fx-padding: 10; -fx-background-color: #f9f9f9;");
 

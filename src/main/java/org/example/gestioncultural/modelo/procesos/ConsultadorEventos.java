@@ -19,16 +19,8 @@ public class ConsultadorEventos extends GestionadorEventos {
         return null;
     }
 
-    public ArrayList<Evento> obtenerProximosEventos() {
-        ArrayList<Evento> proximosEventos = new ArrayList<>();
-
-        for (Evento evento : eventos) {
-            if (evento.getFecha().isAfter(LocalDate.now())) {
-                proximosEventos.add(evento);
-            }
-        }
-
-        return proximosEventos;
+    public ArrayList<Evento> obtenerProximoEvento() {
+        return new ArrayList<>();
     }
 
     public ArrayList<Evento> obtenerEventosConcluidos() {

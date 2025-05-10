@@ -6,6 +6,7 @@ import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class Validador {
 
@@ -26,9 +27,22 @@ public class Validador {
         throw new IllegalArgumentException("Evento de tipo no contemplado");
     }
 
-    private boolean esTallerCorrecto(Taller taller) {
-        validarCamposGenerales(taller.getTitulo(), taller.getFecha(), taller.getPonente(), taller.getAforo(), taller.getPrecio());
+    public LocalDate validarFecha(String fecha) throws IllegalArgumentException {
+        if (fecha != null) {
+            try {
+                return LocalDate.parse(fecha);
+            } catch  (DateTimeParseException dtpe) {
+                throw new IllegalArgumentException("Formato de fecha no valido");
+            }
+        }
+        throw new IllegalArgumentException("Fecha no valida");
+    }
 
+    private boolean esTallerCorrecto(Taller taller) {
+        // validacion general
+        validarCampos(taller.getTitulo(), taller.getFecha(), taller.getPonente(), taller.getAforo(), taller.getPrecio());
+
+        // validacion especifica
         if (taller.getFecha().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha es anterior a la actual");
         }
@@ -43,7 +57,7 @@ public class Validador {
     }
 
     private boolean esConferenciaCorrecto(Conferencia conferencia) {
-        validarCamposGenerales(conferencia.getTitulo(), conferencia.getFecha(), conferencia.getPonente());
+        validarCampos(conferencia.getTitulo(), conferencia.getFecha(), conferencia.getPonente());
 
         if (conferencia.getFecha().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha es anterior a la actual");
@@ -53,7 +67,7 @@ public class Validador {
     }
 
     private boolean esExposicionCorrecto(Exposicion exposicion) {
-        validarCamposGenerales(exposicion.getTitulo(), exposicion.getFecha(), exposicion.getPonente(), exposicion.getFecha_fin(), exposicion.getPrecio());
+        validarCampos(exposicion.getTitulo(), exposicion.getFecha(), exposicion.getPonente(), exposicion.getFecha_fin(), exposicion.getPrecio());
 
         if (exposicion.getFecha().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha es anterior a la actual");
@@ -69,7 +83,7 @@ public class Validador {
     }
 
     // funcion común para validar los campos generales (no nulos)
-    private void validarCamposGenerales(Object... campos) {
+    private void validarCampos(Object... campos) {
         for (Object campo : campos) {
             if (campo == null) {
                 throw new IllegalArgumentException("Un campo obligatorio es nulo");

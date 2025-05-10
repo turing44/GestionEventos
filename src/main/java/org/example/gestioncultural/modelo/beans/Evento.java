@@ -19,7 +19,7 @@ public abstract class Evento implements Serializable {
         this.ponente = ponente;
         this.fecha = fecha;
 
-        enCurso = false;
+        enCurso = estaEnCurso();
     }
 
 
@@ -27,7 +27,7 @@ public abstract class Evento implements Serializable {
         return List.of(
                 "ID: " + this.idEvento,
                 "Tipo: " + this.getClass().getSimpleName(),
-                "En Curso: " + this.enCurso,
+                "En Curso: " + estaEnCurso(),
                 "Fecha: " + this.fecha,
                 "Titulo: " + this.titulo,
                 "Ponente: " + this.ponente
@@ -62,11 +62,7 @@ public abstract class Evento implements Serializable {
 
 
     public boolean estaEnCurso() {
-        return enCurso;
-    }
-
-    public void setEnCurso(boolean enCurso) {
-        this.enCurso = enCurso;
+        return LocalDate.now().isEqual(this.fecha);
     }
 
     public Integer getIdEvento() {
