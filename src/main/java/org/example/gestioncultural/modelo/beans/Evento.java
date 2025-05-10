@@ -1,8 +1,12 @@
 package org.example.gestioncultural.modelo.beans;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
-public class Evento {
+public abstract class Evento implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String titulo;
     private String ponente;
     private LocalDate fecha;
@@ -19,12 +23,18 @@ public class Evento {
     }
 
 
-
-    private void asignarId(Integer idEvento) {
-        // obtener ultimo id creado
-        this.idEvento = idEvento;
-
+    public List<String> obtenerListaDeAtributosComunes() {
+        return List.of(
+                "ID: " + this.idEvento,
+                "Tipo: " + this.getClass().getSimpleName(),
+                "En Curso: " + this.enCurso,
+                "Fecha: " + this.fecha,
+                "Titulo: " + this.titulo,
+                "Ponente: " + this.ponente
+        );
     }
+
+    public abstract List<String> obtenerListaDeAtributosEspecificos();
 
     public String getTitulo() {
         return titulo;
@@ -57,6 +67,17 @@ public class Evento {
 
     public void setEnCurso(boolean enCurso) {
         this.enCurso = enCurso;
+    }
+
+    public Integer getIdEvento() {
+        return idEvento;
+    }
+
+    /**
+     * Punto debil, no se le deberia poder cambiar el id a un evento
+     * */
+    public void setIdEvento(Integer idEvento) {
+        this.idEvento = idEvento;
     }
 
 }

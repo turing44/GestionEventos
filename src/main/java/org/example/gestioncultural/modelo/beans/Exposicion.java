@@ -1,6 +1,7 @@
 package org.example.gestioncultural.modelo.beans;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class Exposicion extends Evento {
@@ -27,5 +28,13 @@ public class Exposicion extends Evento {
     }
     public void setFecha_fin(LocalDate fecha_fin) {
         this.fecha_fin = fecha_fin;
+    }
+
+    @Override
+    public List<String> obtenerListaDeAtributosEspecificos() {
+        return List.of(
+                "Precio: " + this.precio,
+                "Fecha fin: " + this.fecha_fin
+        );
     }
 }

@@ -9,7 +9,12 @@ import java.time.LocalDate;
 
 public class Validador {
 
-    public boolean esValido(Evento evento) throws IllegalArgumentException {
+    public boolean esValido(Evento evento) {
+        if (evento == null) {
+            throw new IllegalArgumentException("El evento no puede ser nulo");
+        }
+
+        // Validar el tipo de evento
         if (evento instanceof Taller) {
             return esTallerCorrecto((Taller) evento);
         } else if (evento instanceof Conferencia) {
@@ -21,68 +26,57 @@ public class Validador {
         throw new IllegalArgumentException("Evento de tipo no contemplado");
     }
 
-    private boolean esTallerCorrecto(Taller taller) throws IllegalArgumentException {
-        boolean esCorrecto =
-                taller.getTitulo() != null &&
-                taller.getFecha() != null &&
-                taller.getPonente() != null &&
-                taller.getNumeroMaximoAsistentes() != null &&
-                taller.getPrecio() != null;
+    private boolean esTallerCorrecto(Taller taller) {
+        validarCamposGenerales(taller.getTitulo(), taller.getFecha(), taller.getPonente(), taller.getAforo(), taller.getPrecio());
 
-        if (esCorrecto) {
-            if (taller.getFecha().isBefore(LocalDate.now())) {
-                throw new IllegalArgumentException("La fecha es anterior a la actual");
-            }
-            if (taller.getNumeroMaximoAsistentes() < 1) {
-                throw new IllegalArgumentException("El numero de asistentes no puede ser menor que 1");
-            }
-            if (taller.getPrecio() < 0) {
-                throw new IllegalArgumentException("La precio no puede ser negativo");
-            }
+        if (taller.getFecha().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha es anterior a la actual");
+        }
+        if (taller.getAforo() < 1) {
+            throw new IllegalArgumentException("El número de asistentes no puede ser menor que 1");
+        }
+        if (taller.getPrecio() < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         }
 
-
-        return esCorrecto;
-
-
+        return true;
     }
+
     private boolean esConferenciaCorrecto(Conferencia conferencia) {
+        validarCamposGenerales(conferencia.getTitulo(), conferencia.getFecha(), conferencia.getPonente());
 
-        boolean esCorrecto =
-                conferencia.getTitulo() != null &&
-                conferencia.getFecha() != null &&
-                conferencia.getPonente() != null;
-
-        if (esCorrecto) {
-            if (conferencia.getFecha().isBefore(LocalDate.now())) {
-                throw new IllegalArgumentException("La fecha es anterior a la actual");
-            }
+        if (conferencia.getFecha().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha es anterior a la actual");
         }
 
-
-        return esCorrecto;
+        return true;
     }
+
     private boolean esExposicionCorrecto(Exposicion exposicion) {
+        validarCamposGenerales(exposicion.getTitulo(), exposicion.getFecha(), exposicion.getPonente(), exposicion.getFecha_fin(), exposicion.getPrecio());
 
-        boolean esCorrecto =
-                exposicion.getTitulo() != null &&
-                exposicion.getFecha() != null &&
-                exposicion.getPonente() != null &&
-                exposicion.getFecha_fin() != null &&
-                exposicion.getPrecio() != null;
-
-        if (esCorrecto) {
-            if (exposicion.getFecha().isBefore(LocalDate.now())) {
-                throw new IllegalArgumentException("La fecha es anterior a la actual");
-            }
-            if (exposicion.getFecha_fin().isBefore(exposicion.getFecha())) {
-                throw new IllegalArgumentException("La fecha final es anterior a la fecha de inicio");
-            }
-            if (exposicion.getPrecio() < 0) {
-                throw new IllegalArgumentException("La precio no puede ser negativo");
-            }
+        if (exposicion.getFecha().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha es anterior a la actual");
+        }
+        if (exposicion.getFecha_fin().isBefore(exposicion.getFecha())) {
+            throw new IllegalArgumentException("La fecha final es anterior a la fecha de inicio");
+        }
+        if (exposicion.getPrecio() < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
         }
 
-        return esCorrecto;
+        return true;
+    }
+
+    // funcion común para validar los campos generales (no nulos)
+    private void validarCamposGenerales(Object... campos) {
+        for (Object campo : campos) {
+            if (campo == null) {
+                throw new IllegalArgumentException("Un campo obligatorio es nulo");
+            }
+            if (campo == "") {
+                throw new IllegalArgumentException("Ningun campo puede estar vacio");
+            }
+        }
     }
 }

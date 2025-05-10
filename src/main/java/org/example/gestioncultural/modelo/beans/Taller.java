@@ -1,15 +1,16 @@
 package org.example.gestioncultural.modelo.beans;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class Taller extends Evento {
-    private Integer numeroMaximoAsistentes;
+    private Integer aforo;
     private Double precio;
 
-    public Taller(String titulo, String ponente, LocalDate fecha, Double precio, Integer numeroMaximoAsistentes) {
+    public Taller(String titulo, String ponente, LocalDate fecha, Double precio, Integer aforo) {
         super(titulo, ponente, fecha);
-        this.numeroMaximoAsistentes = numeroMaximoAsistentes;
+        this.aforo = aforo;
         this.precio = precio;
     }
 
@@ -22,11 +23,19 @@ public class Taller extends Evento {
         this.precio = precio;
     }
 
-    public Integer getNumeroMaximoAsistentes() {
-        return numeroMaximoAsistentes;
+    public Integer getAforo() {
+        return aforo;
     }
 
-    public void setNumeroMaximoAsistentes(Integer numeroMaximoAsistentes) {
-        this.numeroMaximoAsistentes = numeroMaximoAsistentes;
+    public void setAforo(Integer aforo) {
+        this.aforo = aforo;
+    }
+
+    @Override
+    public List<String> obtenerListaDeAtributosEspecificos() {
+        return List.of(
+                "Precio: " + this.precio,
+                "Aforo: " + this.aforo
+        );
     }
 }

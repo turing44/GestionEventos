@@ -1,6 +1,7 @@
 package org.example.gestioncultural.modelo.beans;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class Conferencia extends Evento {
@@ -16,5 +17,12 @@ public class Conferencia extends Evento {
     }
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    @Override
+    public List<String> obtenerListaDeAtributosEspecificos() {
+        return List.of(
+                "Hora: " + this.hora
+        );
     }
 }

@@ -2,18 +2,17 @@ package org.example.gestioncultural.modelo.procesos;
 
 import java.io.*;
 
-public class Repositorio<T extends Serializable> {
+public class Repositorio<T> {
     private final String rutaArchivo;
 
     public Repositorio(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
     }
 
-    // Guarda el objeto serializable en el archivo
     public void guardar(T objeto) {
         try (FileOutputStream fos = new FileOutputStream(rutaArchivo);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(objeto);
+             oos.writeObject(objeto);
         } catch (IOException e) {
             System.err.println("Error al guardar datos en " + rutaArchivo + ": " + e.getMessage());
         }

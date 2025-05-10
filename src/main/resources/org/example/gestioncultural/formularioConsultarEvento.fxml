@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.gestioncultural.controladores.ConsultarEvento"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <children>
-        <Label layoutX="300.0" layoutY="153.0" text="Formulario Consultar Eventos" />
-    </children>
-
-</AnchorPane>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestioncultural.controladores.ConsultarEvento">
+   <content>
+      <VBox prefHeight="200.0" prefWidth="590.0">
+         <children>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button fx:id="btnProximoEvento" mnemonicParsing="false" onAction="#mostrarProximoEvento" text="Proximo Evento" />
+                  <Button fx:id="btnEventoEnCurso" mnemonicParsing="false" onAction="#mostrarEventoEnCurso" text="Evento en curso" />
+                <Button fx:id="mostrarEventosConcluidos" mnemonicParsing="false" onAction="#mostrarEventosConcluidos" text="Eventos concluidos" />
+              </buttons>
+            </ButtonBar>
+            <VBox fx:id="contenedorEventos" prefHeight="200.0" prefWidth="100.0" />
+         </children></VBox>
+   </content>
+</ScrollPane>

@@ -3,12 +3,13 @@ package org.example.gestioncultural.modelo.procesos;
 import org.example.gestioncultural.modelo.beans.Evento;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class GestionEventos {
+public class GestionadorEventos {
     protected ArrayList<Evento> eventos;
     protected Repositorio <ArrayList<Evento>> repositorio = new Repositorio<>("eventos.ser");
 
-    public GestionEventos() {
+    public GestionadorEventos() {
         this.eventos = repositorio.leer();
         if (eventos == null) {
             eventos = new ArrayList<>();

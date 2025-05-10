@@ -19,6 +19,7 @@ import java.time.format.DateTimeParseException;
 public class CrearEvento {
     @FXML private ComboBox<String> comboBoxTipos;
 
+    @FXML private Button btnCrearEvento;
     @FXML private Label mensaje;
 
     @FXML private TextField campoTitulo;
@@ -46,6 +47,8 @@ public class CrearEvento {
             if (validador.esValido(evento)) {
                 creadorEventos.crearEvento(evento);
                 mensaje.setText("Evento creado correctamente");
+                btnCrearEvento.setDisable(true);
+
             }
 
         } catch (DateTimeParseException dtpe) {
@@ -105,6 +108,8 @@ public class CrearEvento {
     }
 
     private void cambiarFormularioSegunEvento(String eventoSeleccionado) {
+        limpiarTextFields();
+        btnCrearEvento.setDisable(false);
         switch (eventoSeleccionado) {
             case "Conferencia":
                 campoTitulo.setDisable(false);
@@ -135,6 +140,16 @@ public class CrearEvento {
                 campoPrecio.setDisable(false);
                 campoAsistentes.setDisable(true);
         }
+    }
+
+    private void limpiarTextFields() {
+        campoTitulo.clear();
+        campoPonente.clear();
+        campoFecha.clear();
+        campoHora.clear();
+        campoPrecio.clear();
+        campoFechaFin.clear();
+        campoAsistentes.clear();
     }
 
 }

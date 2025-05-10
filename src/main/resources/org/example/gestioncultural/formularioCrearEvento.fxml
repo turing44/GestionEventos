@@ -33,7 +33,7 @@
             <Label fx:id="lblFecha" text="Fecha" GridPane.rowIndex="2" />
             <Label fx:id="lblHora" text="Hora" GridPane.rowIndex="3" />
             <Label fx:id="lblPrecio" text="Precio" GridPane.rowIndex="4" />
-            <Label fx:id="lblAsistentes" text="Asistenentes" GridPane.rowIndex="6" />
+            <Label fx:id="lblAsistentes" text="Asistentes" GridPane.rowIndex="6" />
             <TextField fx:id="campoTitulo" disable="true" prefHeight="25.0" prefWidth="381.0" GridPane.columnIndex="1" />
             <TextField fx:id="campoPonente" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="campoFecha" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -43,7 +43,7 @@
             <TextField fx:id="campoAsistentes" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <Button fx:id="btnCrearEvento" mnemonicParsing="false" onAction="#crearEvento" text="Crear" />
+      <Button fx:id="btnCrearEvento" disable="true" mnemonicParsing="false" onAction="#crearEvento" text="Crear" />
       <Label fx:id="mensaje" />
    </children>
 </VBox>
