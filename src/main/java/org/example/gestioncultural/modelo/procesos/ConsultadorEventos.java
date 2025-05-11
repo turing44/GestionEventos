@@ -5,6 +5,9 @@ import org.example.gestioncultural.modelo.beans.Exposicion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
+import java.util.Optional;
 
 public class ConsultadorEventos extends GestionadorEventos {
 
@@ -12,15 +15,43 @@ public class ConsultadorEventos extends GestionadorEventos {
         return eventos;
     }
 
-    public Evento obtenerEventoEnCurso() {
-        for (Evento evento : eventos) {
-            if (evento.estaEnCurso()) return evento;
-        }
-        return null;
+    /*
+     *
+     * Version antigua, antes de aprender programacion funcional
+     * public Evento obtenerEventoEnCurso() {
+     *         for (Evento evento : eventos) {
+     *             if (evento.estaEnCurso()) return evento;
+     *         }
+     *         return null;
+     *     }
+     */
+
+    public Optional<Evento> obtenerEventoEnCurso() {
+        return eventos.stream()
+                .filter(Evento::estaEnCurso) // esto es igual que .filter(evento -> evento.estaEnCurso())
+                .findFirst();
     }
 
-    public ArrayList<Evento> obtenerProximoEvento() {
-        return new ArrayList<>();
+
+    /*public Evento obtenerProximoEvento() {
+        List<Evento> eventosOrdenados = new ArrayList<>(eventos);
+        eventosOrdenados.sort(Comparator.comparing(Evento::getFecha));
+
+        for (Evento evento : eventosOrdenados) {
+            if (LocalDate.now().isBefore(evento.getFecha()) && !evento.estaEnCurso()) {
+                return evento;
+            }
+        }
+
+        throw new IllegalArgumentException("No hay eventos proximamente");
+    }*/
+
+    public Optional<Evento> obtenerProximoEvento() {
+        return eventos.stream()
+                .sorted(Comparator.comparing(Evento::getFecha))
+                .filter(evento ->
+                        LocalDate.now().isBefore(evento.getFecha()) && !evento.estaEnCurso())
+                .findFirst();
     }
 
     public ArrayList<Evento> obtenerEventosConcluidos() {
@@ -36,15 +67,15 @@ public class ConsultadorEventos extends GestionadorEventos {
     }
 
 
-    public Evento obtenerEventoPorFecha (LocalDate fecha) {
+    /*public Evento obtenerEventoPorFecha (LocalDate fecha) {
         for (Evento evento : eventos) {
             if (evento.getFecha().equals(fecha)) {
                 return evento;
-            } else if (evento instanceof Exposicion) {
+            } else if (evento instanceof Exposicion e) {
                 if
                 (
-                        ((Exposicion) evento).getFecha().isAfter(fecha) &&
-                        ((Exposicion) evento).getFecha_fin().isBefore(fecha)
+                        e.getFecha().isAfter(fecha) &&
+                        e.getFecha_fin().isBefore(fecha)
                 )
                 {
                     return evento;
@@ -53,6 +84,17 @@ public class ConsultadorEventos extends GestionadorEventos {
         }
 
         return null;
+    }*/
+
+    public Optional<Evento> obtenerEventoPorFecha(LocalDate fecha) {
+        return eventos.stream()
+                .filter(evento ->
+                        evento.getFecha().isEqual(fecha) ||
+                                (evento instanceof Exposicion expo &&
+                                        expo.getFecha().isBefore(fecha) &&
+                                        expo.getFecha_fin().isAfter(fecha))
+                )
+                .findFirst();
     }
 
 }

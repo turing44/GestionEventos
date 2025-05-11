@@ -9,9 +9,11 @@ import org.example.gestioncultural.modelo.beans.Evento;
 import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 import org.example.gestioncultural.modelo.procesos.ConsultadorEventos;
+import org.example.gestioncultural.vista.CreadorUI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ConsultarEvento {
 
@@ -20,6 +22,7 @@ public class ConsultarEvento {
 
     private ArrayList<Evento> eventos;
     private ConsultadorEventos consultadorEventos = new ConsultadorEventos();
+    private CreadorUI creadorUI = new CreadorUI();
 
     @FXML
     public void initialize() {
@@ -29,54 +32,48 @@ public class ConsultarEvento {
 
     @FXML
     public void mostrarProximoEvento() {
-        try {
-           // crearVistaEvento(consultadorEventos.obtenerProximoEvento());
-        } catch (IllegalArgumentException e) {
-            mensaje.setText(e.getMessage());
-        }
+        limpiarPanelEventos();
 
+        Optional<Evento> proximoEvento = consultadorEventos.obtenerProximoEvento();
+
+        proximoEvento.ifPresentOrElse(
+                evento -> creadorUI.crearVistaEvento(evento),
+                () -> mensaje.setText("No hay eventos próximamente")
+        );
     }
+
     @FXML
     public void mostrarEventoEnCurso() {
-        try {
-            crearVistaEvento(consultadorEventos.obtenerEventoEnCurso());
-        } catch (IllegalArgumentException e) {
-            mensaje.setText(e.getMessage());
-        }
+        limpiarPanelEventos();
+
+        Optional<Evento> eventoEnCurso = consultadorEventos.obtenerEventoEnCurso();
+
+        eventoEnCurso.ifPresentOrElse(
+                evento -> creadorUI.crearVistaEvento(evento),
+                () -> mensaje.setText("No hay eventos en curso")
+        );
     }
 
     @FXML
     public void mostrarEventosConcluidos() {
+        limpiarPanelEventos();
         for (Evento e : consultadorEventos.obtenerEventosConcluidos()) {
-            contenedorEventos.getChildren().add(crearVistaEvento(e));
+            contenedorEventos.getChildren().add(creadorUI.crearVistaEvento(e));
         }
     }
 
+    private void limpiarPanelEventos() {
+        contenedorEventos.getChildren().clear();
+        mensaje.setText("");
+    }
 
     private void mostrarTodosEventos() {
+        limpiarPanelEventos();
         for (Evento e : eventos) {
-            contenedorEventos.getChildren().add(crearVistaEvento(e));
+            contenedorEventos.getChildren().add(creadorUI.crearVistaEvento(e));
         }
     }
 
-    private HBox crearVistaEvento(Evento e) throws IllegalArgumentException{
-        if (e == null) throw new IllegalArgumentException("No hay ningun evento que mostrar");
 
-
-        HBox contenedorEvento = new HBox(10);
-        contenedorEvento.setStyle("-fx-border-color: #ccc; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-
-        VBox texto = new VBox(5);
-
-        for (String atributoComun : e.obtenerListaDeAtributosComunes()) {
-            texto.getChildren().add(new Label(atributoComun));
-        }
-        for (String atributoEspecifico : e.obtenerListaDeAtributosEspecificos()) {
-            texto.getChildren().add(new Label(atributoEspecifico));
-        }
-
-        contenedorEvento.getChildren().add(texto);
-        return contenedorEvento;
-    }
 }
 

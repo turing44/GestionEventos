@@ -82,7 +82,12 @@ public class Validador {
         return true;
     }
 
-    // funcion común para validar los campos generales (no nulos)
+    /**
+     * Valida que los campos no esten ni nulos ni vacios
+     * uso numero variable de parametros para hacer la funcion reutilizable
+     * @param campos
+     *
+     */
     private void validarCampos(Object... campos) {
         for (Object campo : campos) {
             if (campo == null) {
