@@ -3,12 +3,14 @@ package org.example.gestioncultural.controladores;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
 public class MainController {
 
+    @FXML private Label mensaje;
     @FXML
     private BorderPane contenedorPrincipal;
 
@@ -18,8 +20,7 @@ public class MainController {
             Parent pagina = obtenerPagina("formularioCrearEvento.fxml");
             contenedorPrincipal.setCenter(pagina);
         } catch (IOException e) {
-            e.printStackTrace();
-            // Mandar error al encontrar la pagina
+            mensaje.setText("No se ha podido cambiar de pagina");
         }
     }
 
@@ -29,8 +30,7 @@ public class MainController {
             Parent pagina = obtenerPagina("formularioModificarEvento.fxml");
             contenedorPrincipal.setCenter(pagina);
         } catch (IOException e) {
-            e.printStackTrace();
-            // Mandar error al encontrar la pagina
+            mensaje.setText("No se ha podido cambiar de pagina");
         }
     }
 
@@ -40,8 +40,7 @@ public class MainController {
             Parent pagina = obtenerPagina("formularioConsultarEvento.fxml");
             contenedorPrincipal.setCenter(pagina);
         } catch (IOException e) {
-            e.printStackTrace();
-            // Mandar error al encontrar la pagina
+            mensaje.setText("No se ha podido cambiar de pagina");
         }
     }
 
@@ -51,13 +50,9 @@ public class MainController {
             Parent pagina = obtenerPagina("formularioBorrarEvento.fxml");
             contenedorPrincipal.setCenter(pagina);
         } catch (IOException e) {
-            e.printStackTrace();
-            // Mandar error al encontrar la pagina
+            mensaje.setText("No se ha podido cambiar de pagina");
         }
     }
-
-
-
 
 
     private Parent obtenerPagina(String archivoFXML) throws IOException {

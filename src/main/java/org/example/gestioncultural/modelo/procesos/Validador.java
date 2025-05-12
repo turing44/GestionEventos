@@ -6,7 +6,6 @@ import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 class Validador {
 
@@ -28,16 +27,6 @@ class Validador {
 
     }
 
-    public LocalDate validarFecha(String fecha) throws IllegalArgumentException {
-        if (fecha != null) {
-            try {
-                return LocalDate.parse(fecha);
-            } catch  (DateTimeParseException dtpe) {
-                throw new IllegalArgumentException("Formato de fecha no valido");
-            }
-        }
-        throw new IllegalArgumentException("Fecha no valida");
-    }
 
     private void validarTaller(Taller taller) {
         // validacion general

@@ -11,7 +11,6 @@ public abstract class Evento implements Serializable {
     private String ponente;
     private LocalDate fecha;
 
-    private boolean enCurso;
     private Integer idEvento;
 
     public Evento(String titulo, String ponente, LocalDate fecha) {
@@ -19,7 +18,6 @@ public abstract class Evento implements Serializable {
         this.ponente = ponente;
         this.fecha = fecha;
 
-        enCurso = estaEnCurso();
     }
 
 

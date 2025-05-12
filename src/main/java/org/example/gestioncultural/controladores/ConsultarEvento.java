@@ -103,8 +103,5 @@ public class ConsultarEvento {
         mensaje.setText("");
     }
 
-
-
-
 }
 

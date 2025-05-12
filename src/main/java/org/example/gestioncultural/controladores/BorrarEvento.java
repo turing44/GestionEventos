@@ -8,7 +8,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.gestioncultural.modelo.beans.Evento;
 import org.example.gestioncultural.modelo.procesos.BorradorEventos;
-import org.example.gestioncultural.modelo.procesos.ConsultadorEventos;
 import org.example.gestioncultural.utilidades.CreadorUI;
 import org.example.gestioncultural.utilidades.ValidadorFormato;
 
@@ -57,12 +56,12 @@ public class BorrarEvento {
                 );
             }
 
-
         } else {
             throw new IllegalArgumentException("No existe un evento con el id " + id);
         }
 
     }
+
     private void onBtnConfirmarClicked(Integer id) {
         borradorEventos.borrarEventoPorId(id);
         btnConfirmar.setDisable(true);
