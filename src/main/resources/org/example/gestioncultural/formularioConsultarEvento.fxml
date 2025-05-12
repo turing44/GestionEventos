@@ -21,10 +21,9 @@
             </HBox>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
                 <Button fx:id="btnProximoEvento" mnemonicParsing="false" onAction="#mostrarProximoEvento" prefHeight="25.0" text="Proximo Evento" />
                   <Button fx:id="btnEventoEnCurso" mnemonicParsing="false" onAction="#mostrarEventoEnCurso" text="Evento en curso" />
-                <Button fx:id="mostrarEventosConcluidos" mnemonicParsing="false" onAction="#mostrarEventosConcluidos" prefHeight="25.0" text="Eventos concluidos" />
+                <Button fx:id="mostrarEventosConcluidos" mnemonicParsing="false" onAction="#mostrarEventosConcluidos" prefHeight="25.0" prefWidth="452.0" text="Eventos concluidos" />
                   <Button mnemonicParsing="false" onAction="#mostrarTodosEventos" text="Mostrar todos" />
               </buttons>
             </ButtonBar>
