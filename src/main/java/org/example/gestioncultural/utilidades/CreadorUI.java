@@ -1,13 +1,15 @@
-package org.example.gestioncultural.vista;
+package org.example.gestioncultural.utilidades;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.gestioncultural.modelo.beans.Evento;
 
+import java.util.Optional;
+
 public class CreadorUI {
-    public HBox crearVistaEvento(Evento e) throws IllegalArgumentException{
-        if (e == null) throw new IllegalArgumentException("No hay ningun evento que mostrar");
+    public Optional<HBox> crearVistaEvento(Evento e) {
+        if (e == null) {return Optional.empty();}
 
 
         HBox contenedorEvento = new HBox(10);
@@ -23,6 +25,6 @@ public class CreadorUI {
         }
 
         contenedorEvento.getChildren().add(texto);
-        return contenedorEvento;
+        return Optional.of(contenedorEvento);
     }
 }

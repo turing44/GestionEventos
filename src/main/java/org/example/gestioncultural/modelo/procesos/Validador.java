@@ -8,23 +8,24 @@ import org.example.gestioncultural.modelo.beans.Taller;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class Validador {
+class Validador {
 
-    public boolean esValido(Evento evento) {
+    public void validar(Evento evento) throws IllegalArgumentException{
         if (evento == null) {
             throw new IllegalArgumentException("El evento no puede ser nulo");
         }
 
         // Validar el tipo de evento
-        if (evento instanceof Taller) {
-            return esTallerCorrecto((Taller) evento);
-        } else if (evento instanceof Conferencia) {
-            return esConferenciaCorrecto((Conferencia) evento);
-        } else if (evento instanceof Exposicion) {
-            return esExposicionCorrecto((Exposicion) evento);
+        if (evento instanceof Taller t) {
+            validarTaller(t);
+        } else if (evento instanceof Conferencia c) {
+            validarConferencia(c);
+        } else if (evento instanceof Exposicion e) {
+            validarExposicion(e);
+        } else {
+            throw new IllegalArgumentException("Evento de tipo no contemplado");
         }
 
-        throw new IllegalArgumentException("Evento de tipo no contemplado");
     }
 
     public LocalDate validarFecha(String fecha) throws IllegalArgumentException {
@@ -38,7 +39,7 @@ public class Validador {
         throw new IllegalArgumentException("Fecha no valida");
     }
 
-    private boolean esTallerCorrecto(Taller taller) {
+    private void validarTaller(Taller taller) {
         // validacion general
         validarCampos(taller.getTitulo(), taller.getFecha(), taller.getPonente(), taller.getAforo(), taller.getPrecio());
 
@@ -53,20 +54,17 @@ public class Validador {
             throw new IllegalArgumentException("El precio no puede ser negativo");
         }
 
-        return true;
     }
 
-    private boolean esConferenciaCorrecto(Conferencia conferencia) {
+    private void validarConferencia(Conferencia conferencia) {
         validarCampos(conferencia.getTitulo(), conferencia.getFecha(), conferencia.getPonente());
 
         if (conferencia.getFecha().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha es anterior a la actual");
         }
-
-        return true;
     }
 
-    private boolean esExposicionCorrecto(Exposicion exposicion) {
+    private void validarExposicion(Exposicion exposicion) {
         validarCampos(exposicion.getTitulo(), exposicion.getFecha(), exposicion.getPonente(), exposicion.getFecha_fin(), exposicion.getPrecio());
 
         if (exposicion.getFecha().isBefore(LocalDate.now())) {
@@ -79,7 +77,6 @@ public class Validador {
             throw new IllegalArgumentException("El precio no puede ser negativo");
         }
 
-        return true;
     }
 
     /**

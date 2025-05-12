@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CreadorEventos extends GestionadorEventos {
-
-    public void crearEvento(Evento evento) {
+    public void crearEvento(Evento evento) throws IllegalArgumentException{
+        validador.validar(evento);
         evento.setIdEvento(obtenerNuevoId());
         eventos.add(evento);
-        repositorio.guardar(eventos);
+        guardarEventos();
     }
 
     /**

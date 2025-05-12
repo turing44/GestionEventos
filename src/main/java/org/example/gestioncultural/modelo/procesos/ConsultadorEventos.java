@@ -15,36 +15,11 @@ public class ConsultadorEventos extends GestionadorEventos {
         return eventos;
     }
 
-    /*
-     *
-     * Version antigua, antes de aprender programacion funcional
-     * public Evento obtenerEventoEnCurso() {
-     *         for (Evento evento : eventos) {
-     *             if (evento.estaEnCurso()) return evento;
-     *         }
-     *         return null;
-     *     }
-     */
-
     public Optional<Evento> obtenerEventoEnCurso() {
         return eventos.stream()
                 .filter(Evento::estaEnCurso) // esto es igual que .filter(evento -> evento.estaEnCurso())
                 .findFirst();
     }
-
-
-    /*public Evento obtenerProximoEvento() {
-        List<Evento> eventosOrdenados = new ArrayList<>(eventos);
-        eventosOrdenados.sort(Comparator.comparing(Evento::getFecha));
-
-        for (Evento evento : eventosOrdenados) {
-            if (LocalDate.now().isBefore(evento.getFecha()) && !evento.estaEnCurso()) {
-                return evento;
-            }
-        }
-
-        throw new IllegalArgumentException("No hay eventos proximamente");
-    }*/
 
     public Optional<Evento> obtenerProximoEvento() {
         return eventos.stream()
@@ -66,26 +41,6 @@ public class ConsultadorEventos extends GestionadorEventos {
         return eventosConcluidos;
     }
 
-
-    /*public Evento obtenerEventoPorFecha (LocalDate fecha) {
-        for (Evento evento : eventos) {
-            if (evento.getFecha().equals(fecha)) {
-                return evento;
-            } else if (evento instanceof Exposicion e) {
-                if
-                (
-                        e.getFecha().isAfter(fecha) &&
-                        e.getFecha_fin().isBefore(fecha)
-                )
-                {
-                    return evento;
-                }
-            }
-        }
-
-        return null;
-    }*/
-
     public Optional<Evento> obtenerEventoPorFecha(LocalDate fecha) {
         return eventos.stream()
                 .filter(evento ->
@@ -96,11 +51,4 @@ public class ConsultadorEventos extends GestionadorEventos {
                 )
                 .findFirst();
     }
-
-    public Optional<Evento> obtenerEventoPorId(Integer id) {
-        return eventos.stream()
-                .filter(evento -> evento.getIdEvento() == id)
-                .findFirst();
-    }
-
 }

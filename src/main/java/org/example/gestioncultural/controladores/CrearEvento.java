@@ -10,10 +10,7 @@ import org.example.gestioncultural.modelo.beans.Evento;
 import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 import org.example.gestioncultural.modelo.procesos.CreadorEventos;
-import org.example.gestioncultural.modelo.procesos.Validador;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import org.example.gestioncultural.utilidades.ValidadorFormato;
 
 
 public class CrearEvento {
@@ -34,67 +31,58 @@ public class CrearEvento {
     @FXML
     public void initialize() {
         comboBoxTipos.getItems().addAll("Conferencia", "Taller", "Exposicion");
-        comboBoxTipos.setOnAction(event -> cambiarFormularioSegunEvento(comboBoxTipos.getValue()));
+        comboBoxTipos.setOnAction(event -> onTipoEventoSeleccionado(comboBoxTipos.getValue()));
     }
 
     @FXML
     public void crearEvento() {
+        CreadorEventos creadorEventos = new CreadorEventos();
+
         try {
-            Validador validador = new Validador();
-            CreadorEventos creadorEventos = new CreadorEventos();
             Evento evento = crearEventoSegunTipo();
+            creadorEventos.crearEvento(evento);
+            mensaje.setText("Evento creado correctamente");
+            btnCrearEvento.setDisable(true);
 
-            if (validador.esValido(evento)) {
-                creadorEventos.crearEvento(evento);
-                mensaje.setText("Evento creado correctamente");
-                btnCrearEvento.setDisable(true);
-
-            }
-
-        } catch (DateTimeParseException dtpe) {
-            mensaje.setText("No has introducido una fecha en el formato correcto (YYYY-MM-DD)");
-        } catch (NumberFormatException nfe) {
-            mensaje.setText("Has introducido mal los numeros");
-        } catch (IllegalStateException | IllegalArgumentException ise) {
-            mensaje.setText(ise.getMessage());
+        } catch (IllegalArgumentException iae) {
+            mensaje.setText(iae.getMessage());
         }
-
 
     }
 
 
-    private Evento crearEventoSegunTipo() throws IllegalStateException, DateTimeParseException, NumberFormatException {
+    private Evento crearEventoSegunTipo() throws IllegalArgumentException {
         Evento evento;
+        ValidadorFormato validador = new ValidadorFormato();
 
         switch (comboBoxTipos.getValue()) {
             case "Conferencia":
                 evento = new Conferencia(
-                        campoTitulo.getText(),
-                        campoPonente.getText(),
-                        LocalDate.parse(campoFecha.getText()),
-                        campoHora.getText() // cambiar por LocalTime
-                );
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarTexto(campoHora.getText())
+                        );
                 break;
 
             case "Taller":
                 evento = new Taller(
-                        campoTitulo.getText(),
-                        campoPonente.getText(),
-                        LocalDate.parse(campoFecha.getText()),
-                        Double.parseDouble(campoPrecio.getText()),
-                        Integer.parseInt(campoAsistentes.getText())
-
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarDecimal(campoPrecio.getText()),
+                        validador.validarEntero(campoAsistentes.getText())
                 );
                 break;
 
 
             case "Exposicion":
                 evento = new Exposicion (
-                        campoTitulo.getText(),
-                        campoPonente.getText(),
-                        LocalDate.parse(campoFecha.getText()),
-                        Double.parseDouble(campoPrecio.getText()),
-                        LocalDate.parse(campoFechaFin.getText())
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarDecimal(campoPrecio.getText()),
+                        validador.validarFechaFutura(campoFechaFin.getText())
 
                 );
                 break;
@@ -107,7 +95,11 @@ public class CrearEvento {
 
     }
 
-    private void cambiarFormularioSegunEvento(String eventoSeleccionado) {
+    /**
+     * cambia el formulario segun el tipo seleccionado
+     * @param eventoSeleccionado
+     */
+    private void onTipoEventoSeleccionado(String eventoSeleccionado) {
         limpiarTextFields();
         btnCrearEvento.setDisable(false);
         switch (eventoSeleccionado) {
@@ -150,6 +142,8 @@ public class CrearEvento {
         campoPrecio.clear();
         campoFechaFin.clear();
         campoAsistentes.clear();
+
+        mensaje.setText("");
     }
 
 }
