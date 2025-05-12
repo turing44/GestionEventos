@@ -97,4 +97,10 @@ public class ConsultadorEventos extends GestionadorEventos {
                 .findFirst();
     }
 
+    public Optional<Evento> obtenerEventoPorId(Integer id) {
+        return eventos.stream()
+                .filter(evento -> evento.getIdEvento() == id)
+                .findFirst();
+    }
+
 }

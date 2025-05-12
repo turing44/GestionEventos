@@ -1,6 +1,7 @@
 module org.example.gestioncultural {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens org.example.gestioncultural to javafx.fxml;

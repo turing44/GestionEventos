@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.gestioncultural.controladores.BorrarEvento"
-            prefHeight="400.0" prefWidth="600.0">
 
-    <children>
-        <Label layoutX="300.0" layoutY="153.0" text="Formulario Borrar Eventos" />
-    </children>
-
-</AnchorPane>
+<VBox fx:controller="org.example.gestioncultural.controladores.BorrarEvento" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="mensaje" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="campoIdEvento" prefHeight="25.0" prefWidth="266.0" promptText="Introduce el ID para borrar el evento" />
+            <Button fx:id="btnBorrarPorId" mnemonicParsing="false" onAction="#borrarEventoPorId" text="Borrar" />
+         </children>
+      </HBox>
+      <VBox fx:id="panelConfirmacionBorrado" prefHeight="200.0" prefWidth="100.0" />
+   </children>
+</VBox>
