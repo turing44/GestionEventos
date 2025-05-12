@@ -21,6 +21,6 @@
       </VBox>
    </left>
    <center>
-      <Label text="Centro" BorderPane.alignment="CENTER" />
+      <Label text="BIENVENIDO" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
