@@ -10,7 +10,7 @@ import org.example.gestioncultural.modelo.beans.Evento;
 import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 import org.example.gestioncultural.modelo.procesos.CreadorEventos;
-import org.example.gestioncultural.utilidades.ValidadorFormato;
+import org.example.gestioncultural.controladores.utilidades.ValidadorFormato;
 
 
 public class CrearEvento {
@@ -28,18 +28,31 @@ public class CrearEvento {
     @FXML private TextField campoAsistentes;
 
 
+    // Como podria cambiarlos por enums?
+    private final String CONFERENCIA = "Conferencia";
+    private final String TALLER = "Taller";
+    private final String EXPOSICION = "Exposicion";
+
+
     @FXML
     public void initialize() {
-        comboBoxTipos.getItems().addAll("Conferencia", "Taller", "Exposicion");
-        comboBoxTipos.setOnAction(event -> onTipoEventoSeleccionado(comboBoxTipos.getValue()));
+        comboBoxTipos.getItems().addAll(
+                CONFERENCIA,
+                TALLER,
+                EXPOSICION
+        );
+        comboBoxTipos.setOnAction(event ->
+                onTipoEventoSeleccionado(comboBoxTipos.getValue())
+        );
     }
 
     @FXML
     public void crearEvento() {
+        // Esta bien instanciar aqui o debe ser un atributo?
         CreadorEventos creadorEventos = new CreadorEventos();
-
+        Evento evento;
         try {
-            Evento evento = crearEventoSegunTipo();
+            evento = crearEventoSegunTipo();
             creadorEventos.crearEvento(evento);
             mensaje.setText("Evento creado correctamente");
             btnCrearEvento.setDisable(true);
@@ -50,13 +63,12 @@ public class CrearEvento {
 
     }
 
-
     private Evento crearEventoSegunTipo() throws IllegalArgumentException {
         Evento evento;
         ValidadorFormato validador = new ValidadorFormato();
 
         switch (comboBoxTipos.getValue()) {
-            case "Conferencia":
+            case CONFERENCIA:
                 evento = new Conferencia(
                         validador.validarTexto(campoTitulo.getText()),
                         validador.validarTexto(campoPonente.getText()),
@@ -65,7 +77,7 @@ public class CrearEvento {
                         );
                 break;
 
-            case "Taller":
+            case TALLER:
                 evento = new Taller(
                         validador.validarTexto(campoTitulo.getText()),
                         validador.validarTexto(campoPonente.getText()),
@@ -76,14 +88,13 @@ public class CrearEvento {
                 break;
 
 
-            case "Exposicion":
+            case EXPOSICION:
                 evento = new Exposicion (
                         validador.validarTexto(campoTitulo.getText()),
                         validador.validarTexto(campoPonente.getText()),
                         validador.validarFechaFutura(campoFecha.getText()),
                         validador.validarDecimal(campoPrecio.getText()),
                         validador.validarFechaFutura(campoFechaFin.getText())
-
                 );
                 break;
 
@@ -103,7 +114,7 @@ public class CrearEvento {
         limpiarTextFields();
         btnCrearEvento.setDisable(false);
         switch (eventoSeleccionado) {
-            case "Conferencia":
+            case CONFERENCIA:
                 campoTitulo.setDisable(false);
                 campoPonente.setDisable(false);
                 campoFecha.setDisable(false);
@@ -113,7 +124,7 @@ public class CrearEvento {
                 campoAsistentes.setDisable(true);
                 break;
 
-            case "Taller":
+            case TALLER:
                 campoTitulo.setDisable(false);
                 campoPonente.setDisable(false);
                 campoFecha.setDisable(false);
@@ -123,7 +134,7 @@ public class CrearEvento {
                 campoAsistentes.setDisable(false);
                 break;
 
-            case "Exposicion":
+            case EXPOSICION:
                 campoTitulo.setDisable(false);
                 campoPonente.setDisable(false);
                 campoFecha.setDisable(false);
@@ -131,6 +142,17 @@ public class CrearEvento {
                 campoFechaFin.setDisable(false);
                 campoPrecio.setDisable(false);
                 campoAsistentes.setDisable(true);
+                break;
+
+            default:
+                campoTitulo.setDisable(true);
+                campoPonente.setDisable(true);
+                campoFecha.setDisable(true);
+                campoHora.setDisable(true);
+                campoFechaFin.setDisable(true);
+                campoPrecio.setDisable(true);
+                campoAsistentes.setDisable(true);
+                break;
         }
     }
 

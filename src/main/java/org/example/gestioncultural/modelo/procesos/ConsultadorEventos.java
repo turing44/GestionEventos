@@ -6,11 +6,12 @@ import org.example.gestioncultural.modelo.beans.Exposicion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 public class ConsultadorEventos extends GestionadorEventos {
 
-    public ArrayList<Evento> obtenerTodosEventos() {
+    public List<Evento> obtenerTodosEventos() {
         return eventos;
     }
 
@@ -28,7 +29,7 @@ public class ConsultadorEventos extends GestionadorEventos {
                 .findFirst();
     }
 
-    public ArrayList<Evento> obtenerEventosConcluidos() {
+    public List<Evento> obtenerEventosConcluidos() {
         ArrayList<Evento> eventosConcluidos = new ArrayList<>();
 
         for (Evento evento : eventos) {
@@ -46,7 +47,7 @@ public class ConsultadorEventos extends GestionadorEventos {
                         evento.getFecha().isEqual(fecha) ||
                                 (evento instanceof Exposicion expo &&
                                         expo.getFecha().isBefore(fecha) &&
-                                        expo.getFecha_fin().isAfter(fecha))
+                                        expo.getFecha_fin().isAfter(fecha.minusDays(1)))
                 )
                 .findFirst();
     }

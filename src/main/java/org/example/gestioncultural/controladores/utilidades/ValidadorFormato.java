@@ -1,11 +1,11 @@
-package org.example.gestioncultural.utilidades;
+package org.example.gestioncultural.controladores.utilidades;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class ValidadorFormato {
     public String validarTexto(String texto) throws IllegalArgumentException{
-        if (texto == null || texto.isBlank()) {
+        if (texto == null || texto.trim().isBlank()) {
             throw new IllegalArgumentException("Debes completar todos los campos");
         }
         return texto;
@@ -31,7 +31,6 @@ public class ValidadorFormato {
         }
         try {
             return validarEsFututa(LocalDate.parse(fecha));
-
 
         } catch (DateTimeParseException dtpe) {
             throw new IllegalArgumentException("Formato de fecha incorrecto");

@@ -11,8 +11,7 @@ import java.io.IOException;
 public class MainController {
 
     @FXML private Label mensaje;
-    @FXML
-    private BorderPane contenedorPrincipal;
+    @FXML private BorderPane contenedorPrincipal;
 
     @FXML
     protected void cambiarACrearEvento() {

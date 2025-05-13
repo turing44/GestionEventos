@@ -19,16 +19,10 @@ public class Exposicion extends Evento {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
     public LocalDate getFecha_fin() {
         return fecha_fin;
     }
-    public void setFecha_fin(LocalDate fecha_fin) {
-        this.fecha_fin = fecha_fin;
-    }
+
 
     @Override
     public List<String> obtenerListaDeAtributosEspecificos() {

@@ -15,9 +15,7 @@ public class Conferencia extends Evento {
     public String getHora() {
         return hora;
     }
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
+
 
     @Override
     public List<String> obtenerListaDeAtributosEspecificos() {

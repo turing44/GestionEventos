@@ -13,11 +13,10 @@ public abstract class Evento implements Serializable {
 
     private Integer idEvento;
 
-    public Evento(String titulo, String ponente, LocalDate fecha) {
+    protected Evento(String titulo, String ponente, LocalDate fecha) {
         this.titulo = titulo;
         this.ponente = ponente;
         this.fecha = fecha;
-
     }
 
 
@@ -38,16 +37,8 @@ public abstract class Evento implements Serializable {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
     public String getPonente() {
         return ponente;
-    }
-
-    public void setPonente(String ponente) {
-        this.ponente = ponente;
     }
 
     public LocalDate getFecha() {
@@ -74,4 +65,8 @@ public abstract class Evento implements Serializable {
         this.idEvento = idEvento;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return ((Evento) obj).getIdEvento().equals(this.getIdEvento());
+    }
 }

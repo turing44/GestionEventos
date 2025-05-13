@@ -8,6 +8,8 @@ module org.example.gestioncultural {
     exports org.example.gestioncultural;
     exports org.example.gestioncultural.controladores;
     opens org.example.gestioncultural.controladores to javafx.fxml;
-    exports org.example.gestioncultural.utilidades;
-    opens org.example.gestioncultural.utilidades to javafx.fxml;
+    exports org.example.gestioncultural.controladores.utilidades;
+    opens org.example.gestioncultural.controladores.utilidades to javafx.fxml;
+    exports org.example.gestioncultural.modelo.beans;
+    opens org.example.gestioncultural.modelo.beans to javafx.fxml;
 }

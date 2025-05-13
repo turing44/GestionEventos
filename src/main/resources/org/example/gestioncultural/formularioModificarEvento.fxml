@@ -3,19 +3,58 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:controller="org.example.gestioncultural.controladores.ModificarEvento" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gestioncultural.controladores.ModificarEvento">
    <children>
-      <Label fx:id="mensaje" />
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <Label fx:id="mensajeBuscador" />
+      <HBox prefHeight="55.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="campoId" prefHeight="25.0" prefWidth="191.0" promptText="ID del evento a modificar" />
-            <Button fx:id="btnModificarEvento" mnemonicParsing="false" onAction="#modificarEvento" text="Modificar" />
+            <TextField fx:id="campoBuscarId" prefHeight="25.0" prefWidth="191.0" promptText="ID del evento a modificar" />
+            <Button fx:id="btnBuscarEvento" mnemonicParsing="false" onAction="#buscarEvento" text="Buscar evento" />
          </children>
       </HBox>
-      <VBox fx:id="contenedorModificaciones" prefHeight="200.0" prefWidth="100.0" />
+      <VBox fx:id="vistaEventoAModificar" prefHeight="84.0" prefWidth="600.0" />
+      <VBox fx:id="contenedorFormulario" prefHeight="276.0" prefWidth="600.0">
+         <children>
+            <GridPane prefHeight="203.0" prefWidth="600.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="114.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="486.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="lblTitulo" prefHeight="17.0" prefWidth="45.0" text="Titulo" />
+                  <Label fx:id="lblPonente" text="Ponente" GridPane.rowIndex="1" />
+                  <Label fx:id="lblFechaFin" text="Fecha Fin" GridPane.rowIndex="5" />
+                  <Label fx:id="lblFecha" text="Fecha" GridPane.rowIndex="2" />
+                  <Label fx:id="lblHora" text="Hora" GridPane.rowIndex="3" />
+                  <Label fx:id="lblPrecio" text="Precio" GridPane.rowIndex="4" />
+                  <Label fx:id="lblAsistentes" text="Asistentes" GridPane.rowIndex="6" />
+                  <TextField fx:id="campoTitulo" disable="true" prefHeight="25.0" prefWidth="381.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="campoPonente" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="campoFecha" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="campoHora" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="campoPrecio" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="campoFechaFin" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="campoAsistentes" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               </children>
+            </GridPane>
+            <Button fx:id="btnModificarEvento" disable="true" mnemonicParsing="false" onAction="#modificarEvento" text="Modificar" />
+            <Label fx:id="mensajeModificacion" />
+         </children>
+      </VBox>
    </children>
 </VBox>

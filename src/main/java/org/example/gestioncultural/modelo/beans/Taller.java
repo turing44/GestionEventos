@@ -19,17 +19,10 @@ public class Taller extends Evento {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
     public Integer getAforo() {
         return aforo;
     }
 
-    public void setAforo(Integer aforo) {
-        this.aforo = aforo;
-    }
 
     @Override
     public List<String> obtenerListaDeAtributosEspecificos() {

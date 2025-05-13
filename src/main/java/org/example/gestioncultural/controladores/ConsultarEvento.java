@@ -7,11 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.gestioncultural.modelo.beans.Evento;
 import org.example.gestioncultural.modelo.procesos.ConsultadorEventos;
-import org.example.gestioncultural.utilidades.CreadorUI;
-import org.example.gestioncultural.utilidades.ValidadorFormato;
+import org.example.gestioncultural.controladores.utilidades.CreadorUI;
+import org.example.gestioncultural.controladores.utilidades.ValidadorFormato;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ConsultarEvento {
@@ -20,7 +20,7 @@ public class ConsultarEvento {
     @FXML private Label mensaje;
     @FXML private TextField campoFecha;
 
-    private ArrayList<Evento> eventos;
+    private List<Evento> eventos;
     private ConsultadorEventos consultadorEventos = new ConsultadorEventos();
     private CreadorUI creadorUI = new CreadorUI();
     private ValidadorFormato validador  = new ValidadorFormato();
@@ -34,8 +34,11 @@ public class ConsultarEvento {
     @FXML
     public void mostrarTodosEventos() {
         limpiarPanelEventos();
+
+        Optional<HBox> vistaEvento;
+
         for (Evento e : eventos) {
-            Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(e);
+            vistaEvento = creadorUI.crearVistaEvento(e);
             vistaEvento.ifPresent(v -> contenedorEventos.getChildren().add(v));
         }
     }
@@ -44,12 +47,15 @@ public class ConsultarEvento {
     public void mostrarEventoPorFecha() {
         limpiarPanelEventos();
 
+        LocalDate fecha;
+        Optional<Evento> evento;
+        Optional<HBox> vistaEvento;
         try {
-            LocalDate fecha = validador.validarFecha(campoFecha.getText());
-            Optional<Evento> evento = consultadorEventos.obtenerEventoPorFecha(fecha);
+            fecha = validador.validarFecha(campoFecha.getText());
+            evento = consultadorEventos.obtenerEventoPorFecha(fecha);
 
             if (evento.isPresent()) {
-                Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(evento.get());
+                vistaEvento = creadorUI.crearVistaEvento(evento.get());
                 vistaEvento.ifPresent(v -> contenedorEventos.getChildren().add(v));
             } else {
                 mensaje.setText("No hay eventos en esa fecha");
@@ -64,10 +70,11 @@ public class ConsultarEvento {
     public void mostrarProximoEvento() {
         limpiarPanelEventos();
 
+        Optional<HBox> vistaEvento;
         Optional<Evento> proximoEvento = consultadorEventos.obtenerProximoEvento();
 
         if (proximoEvento.isPresent()) {
-            Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(proximoEvento.get());
+            vistaEvento = creadorUI.crearVistaEvento(proximoEvento.get());
             vistaEvento.ifPresent(v -> contenedorEventos.getChildren().add(v));
         } else {
             mensaje.setText("No hay eventos proximamente");
@@ -79,9 +86,10 @@ public class ConsultarEvento {
         limpiarPanelEventos();
 
         Optional<Evento> eventoEnCurso = consultadorEventos.obtenerEventoEnCurso();
+        Optional<HBox> vistaEvento;
 
         if (eventoEnCurso.isPresent()) {
-            Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(eventoEnCurso.get());
+            vistaEvento = creadorUI.crearVistaEvento(eventoEnCurso.get());
             vistaEvento.ifPresent(v -> contenedorEventos.getChildren().add(v));
         } else {
             mensaje.setText("No hay evento en curso");
@@ -91,9 +99,10 @@ public class ConsultarEvento {
     @FXML
     public void mostrarEventosConcluidos() {
         limpiarPanelEventos();
+        Optional<HBox> vistaEvento;
 
         for (Evento e : consultadorEventos.obtenerEventosConcluidos()) {
-            Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(e);
+            vistaEvento = creadorUI.crearVistaEvento(e);
             vistaEvento.ifPresent(v -> contenedorEventos.getChildren().add(v));
         }
     }

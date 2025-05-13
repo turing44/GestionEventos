@@ -1,4 +1,4 @@
-package org.example.gestioncultural.modelo.procesos;
+package org.example.gestioncultural.modelo.util;
 
 import java.io.*;
 

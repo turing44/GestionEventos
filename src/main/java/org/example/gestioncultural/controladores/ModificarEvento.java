@@ -6,66 +6,196 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.example.gestioncultural.modelo.beans.Conferencia;
 import org.example.gestioncultural.modelo.beans.Evento;
+import org.example.gestioncultural.modelo.beans.Exposicion;
+import org.example.gestioncultural.modelo.beans.Taller;
 import org.example.gestioncultural.modelo.procesos.ModificadorEventos;
-import org.example.gestioncultural.utilidades.CreadorUI;
-import org.example.gestioncultural.utilidades.ValidadorFormato;
+import org.example.gestioncultural.controladores.utilidades.CreadorUI;
+import org.example.gestioncultural.controladores.utilidades.ValidadorFormato;
 
 import java.util.Optional;
 
 
 public class ModificarEvento {
-    @FXML
-    private Label mensaje;
-    @FXML
-    private Button btnModificarEvento;
-    @FXML
-    private VBox contenedorModificaciones;
-    @FXML
-    private TextField campoId;
+    @FXML private Button btnModificarEvento;
+    @FXML private Label mensajeModificacion;
+    @FXML private Label mensajeBuscador;
+    @FXML private TextField campoBuscarId;
 
-    private ValidadorFormato validador = new ValidadorFormato();
+    @FXML private VBox vistaEventoAModificar;
+
+    @FXML private TextField campoTitulo;
+    @FXML private TextField campoPonente;
+    @FXML private TextField campoFecha;
+    @FXML private TextField campoHora;
+    @FXML private TextField campoPrecio;
+    @FXML private TextField campoFechaFin;
+    @FXML private TextField campoAsistentes;
+
+
+    // Como podria cambiarlos por enums?
+    private final String CONFERENCIA = "Conferencia";
+    private final String TALLER = "Taller";
+    private final String EXPOSICION = "Exposicion";
+
+
+    private ModificadorEventos modificadorEventos = new ModificadorEventos();
+    private ValidadorFormato validador  = new ValidadorFormato();
     private CreadorUI creadorUI = new CreadorUI();
-    private ModificadorEventos modificador  = new ModificadorEventos();
+
+    private Integer idEventoAModificar;
 
 
+    @FXML
+    public void buscarEvento() {
+        try {
+            limpiar();
+            mostrarEventoSeleccionado();
+            cambiarFormularioSegunTipo();
+
+        } catch (IllegalArgumentException | IllegalStateException ie) {
+            mensajeBuscador.setText(ie.getMessage());
+        }
+    }
+
+    @FXML
     public void modificarEvento() {
         try {
-            mostrarEvento();
+            Evento eventoModificado = crearEventoSegunTipo(obtenerTipoEvento());
+            modificadorEventos.modificarEvento(idEventoAModificar, eventoModificado);
             btnModificarEvento.setDisable(true);
-            mostrarTextFieldsParaModificar();
-        } catch (IllegalArgumentException e) {
-            mensaje.setText(e.getMessage());
+            mensajeModificacion.setText("Modificado");
+        } catch (IllegalArgumentException iae) {
+            mensajeModificacion.setText(iae.getMessage());
+        } catch (IllegalStateException _) {
+            mensajeModificacion.setText("El evento no existe");
         }
 
-
     }
-    private void mostrarEvento() throws IllegalArgumentException {
-        Integer id = validador.validarEntero(campoId.getText());
-        Optional<Evento> evento = modificador.obtenerEventoPorId(id);
+
+
+    private void mostrarEventoSeleccionado() throws IllegalArgumentException, IllegalStateException {
+        Integer id;
+        Optional<Evento> evento;
+        Optional<HBox> vistaEvento;
+
+        id = validador.validarEntero(campoBuscarId.getText());
+
+        evento = modificadorEventos.obtenerEventoPorId(id);
+
         if (evento.isPresent()) {
-            Optional<HBox> vistaEvento = creadorUI.crearVistaEvento(evento.get());
-            if (vistaEvento.isPresent()) {
-                contenedorModificaciones.getChildren().add(vistaEvento.get());
-            } else {
-                throw new IllegalArgumentException("No se ha podido mostrar el evento");
-            }
+            vistaEvento = creadorUI.crearVistaEvento(evento.get());
+            vistaEvento.ifPresent(hBox -> vistaEventoAModificar.getChildren().add(hBox));
+            idEventoAModificar = id;
         } else {
-            throw new IllegalArgumentException("No se encontro el evento");
+            throw new IllegalArgumentException("El evento no existe");
+        }
+
+    }
+
+    private Evento crearEventoSegunTipo(String tipo) throws IllegalArgumentException {
+        Evento evento;
+
+        switch (tipo) {
+            case CONFERENCIA:
+                evento = new Conferencia(
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarTexto(campoHora.getText())
+                );
+                break;
+
+            case TALLER:
+                evento = new Taller(
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarDecimal(campoPrecio.getText()),
+                        validador.validarEntero(campoAsistentes.getText())
+                );
+                break;
+
+
+            case EXPOSICION:
+                evento = new Exposicion(
+                        validador.validarTexto(campoTitulo.getText()),
+                        validador.validarTexto(campoPonente.getText()),
+                        validador.validarFechaFutura(campoFecha.getText()),
+                        validador.validarDecimal(campoPrecio.getText()),
+                        validador.validarFechaFutura(campoFechaFin.getText())
+                );
+                break;
+
+            default:
+                throw new IllegalStateException("No se ha especificado el tipo de evento");
+        }
+
+        return evento;
+
+    }
+
+    /**
+     * cambia el formulario segun el tipo seleccionado
+     */
+    private void cambiarFormularioSegunTipo() throws IllegalStateException {
+        String eventoSeleccionado = obtenerTipoEvento();
+
+        btnModificarEvento.setDisable(false);
+        switch (eventoSeleccionado) {
+            case CONFERENCIA:
+                campoTitulo.setDisable(false);
+                campoPonente.setDisable(false);
+                campoFecha.setDisable(false);
+                campoHora.setDisable(false);
+                campoPrecio.setDisable(true);
+                campoFechaFin.setDisable(true);
+                campoAsistentes.setDisable(true);
+                break;
+
+            case TALLER:
+                campoTitulo.setDisable(false);
+                campoPonente.setDisable(false);
+                campoFecha.setDisable(false);
+                campoHora.setDisable(true);
+                campoPrecio.setDisable(false);
+                campoFechaFin.setDisable(true);
+                campoAsistentes.setDisable(false);
+                break;
+
+            case EXPOSICION:
+                campoTitulo.setDisable(false);
+                campoPonente.setDisable(false);
+                campoFecha.setDisable(false);
+                campoHora.setDisable(true);
+                campoFechaFin.setDisable(false);
+                campoPrecio.setDisable(false);
+                campoAsistentes.setDisable(true);
+                break;
+
+            default:
+                throw new IllegalStateException("Tipo de evento no soportado");
         }
     }
 
-    private void mostrarTextFieldsParaModificar() {
-        TextField campoTitulo = new TextField();
-        TextField campoPonente = new TextField();
-        TextField campoFecha = new TextField();
-        TextField campoHora = new TextField();
-        TextField campoPrecio = new TextField();
-        TextField campoFechaFin = new TextField();
-        TextField campoAsistentes = new TextField();
-
-        contenedorModificaciones.getChildren().addAll();
+    private String obtenerTipoEvento() throws IllegalStateException {
+        Optional<Evento> evento = modificadorEventos.obtenerEventoPorId(idEventoAModificar);
+        if (evento.isPresent()) {
+            if (evento.get() instanceof Conferencia) {
+                return CONFERENCIA;
+            } else if (evento.get() instanceof Taller) {
+                return TALLER;
+            } else if (evento.get() instanceof Exposicion) {
+                return EXPOSICION;
+            }
+        }
+        throw new IllegalStateException();
     }
 
+    private void limpiar() {
+        vistaEventoAModificar.getChildren().clear();
+        mensajeBuscador.setText("");
+    }
 
 }

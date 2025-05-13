@@ -8,6 +8,7 @@ import java.util.Collections;
 public class CreadorEventos extends GestionadorEventos {
     public void crearEvento(Evento evento) throws IllegalArgumentException{
         validador.validar(evento);
+        validador.validarFechaCogida(evento, obtenerFechasCogidas());
         evento.setIdEvento(obtenerNuevoId());
         eventos.add(evento);
         guardarEventos();

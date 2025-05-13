@@ -1,4 +1,4 @@
-package org.example.gestioncultural.modelo.procesos;
+package org.example.gestioncultural.modelo.util;
 
 import org.example.gestioncultural.modelo.beans.Conferencia;
 import org.example.gestioncultural.modelo.beans.Evento;
@@ -6,13 +6,14 @@ import org.example.gestioncultural.modelo.beans.Exposicion;
 import org.example.gestioncultural.modelo.beans.Taller;
 
 import java.time.LocalDate;
+import java.util.List;
 
-class Validador {
-
+public class Validador {
     public void validar(Evento evento) throws IllegalArgumentException{
         if (evento == null) {
             throw new IllegalArgumentException("El evento no puede ser nulo");
         }
+
 
         // Validar el tipo de evento
         if (evento instanceof Taller t) {
@@ -27,6 +28,17 @@ class Validador {
 
     }
 
+
+
+    public void validarFechaCogida(Evento evento, List<LocalDate> fechasCogidas) throws IllegalArgumentException {
+        LocalDate fechaPropuesta = evento.getFecha();
+
+        for (LocalDate fechaCogida : fechasCogidas) {
+            if (fechaCogida.isEqual(fechaPropuesta)) {
+                throw new IllegalArgumentException("La fecha ya está en uso");
+            }
+        }
+    }
 
     private void validarTaller(Taller taller) {
         // validacion general
@@ -68,6 +80,12 @@ class Validador {
 
     }
 
+    public void validarBorradoPermitido(Evento evento) throws IllegalArgumentException {
+        if (evento.estaEnCurso()) {
+            throw new IllegalArgumentException("No se puede borrar este evento");
+        }
+    }
+
     /**
      * Valida que los campos no esten ni nulos ni vacios
      * uso numero variable de parametros para hacer la funcion reutilizable
@@ -84,4 +102,6 @@ class Validador {
             }
         }
     }
+
+
 }
