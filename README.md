@@ -1,3 +1,6 @@
+Aplicacion de escrito de gestión de eventos con JavaFX usando el partrón MVC
+
+--- Preguntas ---
 Como habrias gestionado los distintos tipos de eventos, por si se quieren añadir mas tipos en el futuro <br>
 
 Tiene sentido los metodos heredados de GestionadorEventos <br>
